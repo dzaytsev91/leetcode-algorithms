@@ -1,1 +1,1 @@
-# leetcode-algorithms
+# Leetcode python algorithms
