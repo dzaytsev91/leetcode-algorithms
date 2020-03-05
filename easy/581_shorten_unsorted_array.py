@@ -19,7 +19,6 @@ class Solution:
         return end - start+1 if end - start else 0
 
 
-
 if __name__ == '__main__':
     solution = Solution()
     solution.findUnsortedSubarray([2, 6, 4, 8, 10, 9, 15])
