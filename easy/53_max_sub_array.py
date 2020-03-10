@@ -8,19 +8,20 @@ class Solution:
     def maxSubArray(self, nums: List[int]) -> int:
         if not nums:
             return 0
-        if len(nums) == 1:
-            return nums[0]
-        res_max_sum = None
+        current_max = None
         max_sum = None
-        for val in nums:
-            if max_sum is None:
-                max_sum = val
-                res_max_sum = val
-            else:
-                max_sum = max(max_sum + val, val)
-                if max_sum > res_max_sum:
-                    res_max_sum = max_sum
-        return res_max_sum
+
+        for index in range(len(nums)):
+            if index == 0:
+                current_max = nums[index]
+                max_sum = nums[index]
+                continue
+
+            current_max = max(nums[index], current_max + nums[index])
+            if current_max > max_sum:
+                max_sum = current_max
+
+        return max_sum
 
 
 if __name__ == '__main__':
