@@ -7,18 +7,12 @@ class ListNode:
 
 class Solution:
     def reverseList(self, head: ListNode) -> ListNode:
-        if not head or not head.next:
-            return head
+        current = head
+        prev = None
 
-        stack = []
-        while head:
-            stack.append(head.val)
-            head = head.next
-
-        cur_head = ListNode(val=stack.pop())
-        start_head = cur_head
-        while stack:
-            new_head = ListNode(val=stack.pop())
-            cur_head.next = new_head
-            cur_head = new_head
-        return start_head
+        while current:
+            next_node = current.next
+            current.next = prev
+            prev = current
+            current = next_node
+        return prev
