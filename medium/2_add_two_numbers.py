@@ -7,32 +7,27 @@ class ListNode:
 
 class Solution:
     def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
-        first_number = []
-        second_number = []
-        result_val = []
-        first_val = 0
-        second_val = 0
-
-        while l1:
-            first_number.insert(0, str(l1.val))
-            l1 = l1.next
-        while l2:
-            second_number.insert(0, str(l2.val))
-            l2 = l2.next
-
-        if first_number:
-            first_val = int("".join(first_number))
-        if second_number:
-            second_val = int("".join(second_number))
-
-        for val in str(first_val + second_val):
-            result_val.insert(0, val)
-
         result = ListNode(0)
         temp = result
-        for num in result_val:
-            node = ListNode(val=int(num))
+        carry = 0
+
+        while l1 or l2:
+            l1_val = l1.val if l1 else 0
+            l2_val = l2.val if l2 else 0
+            current_sum = l1_val + l2_val + carry
+            carry = current_sum // 10
+            last_digit = current_sum % 10
+
+            temp.next = ListNode(val=last_digit)
+
+            temp = temp.next
+            if l1:
+                l1 = l1.next
+            if l2:
+                l2 = l2.next
+        if carry > 0:
+            node = ListNode(val=1)
             temp.next = node
-            temp = node
 
         return result.next
+
