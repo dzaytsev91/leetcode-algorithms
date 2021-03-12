@@ -14,18 +14,18 @@ class Solution:
         if not root:
             return
 
-        nodes = []
         stack = [root]
+        prev = None
         while stack:
             node = stack.pop()
-            if not node:
-                continue
-            nodes.append(node)
-            stack.append(node.right)
-            stack.append(node.left)
+            if node.right:
+                stack.append(node.right)
+            if node.left:
+                stack.append(node.left)
+                node.left = None
 
-        root = nodes.pop(0)
-        for node in nodes:
-            root.right = node
-            root.left = None
-            root = node
+            if prev:
+                prev.right = node
+
+            prev = node
+
