@@ -30,4 +30,3 @@ class Solution:
             tmp_head.next = new_node
             tmp_head = new_node
         return new_head.next
-
