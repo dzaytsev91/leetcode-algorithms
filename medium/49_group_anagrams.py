@@ -2,27 +2,18 @@ from typing import List
 
 
 class Solution:
-    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
-        result = []
-        dicts = []
-        for word in strs:
-            data = {}
-            if not word:
-                if word not in dicts:
-                    dicts.append(word)
-                    result.append([""])
-                else:
-                    result[dicts.index(word)].append(word)
-                continue
-            for letter in word:
-                if letter in data:
-                    data[letter] += 1
-                else:
-                    data[letter] = 1
 
-            if data in dicts:
-                result[dicts.index(data)].append(word)
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        data = {}
+        for index in range(len(strs)):
+            sorted_word = "".join(sorted(strs[index]))
+            if sorted_word not in data:
+                data[sorted_word] = [strs[index]]
             else:
-                dicts.append(data)
-                result.append([word])
+                data[sorted_word].append(strs[index])
+
+        result = []
+        for key in data:
+            result.append(data[key])
         return result
+
