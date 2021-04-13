@@ -1,37 +1,27 @@
-from typing import List
-
-
 class Solution:
-    def search(self, nums: List[int], target: int) -> int:
+    # @param {integer[]} numss
+    # @param {integer} target
+    # @return {integer}
+    def search(self, nums, target):
         if not nums:
             return -1
-        n = len(nums) - 1
-        if nums[0] > target:
-            index = n
-            while index >= 0:
-                if nums[index] == target:
-                    return index
 
-                if index == 0:
-                    return -1
+        left = 0
+        right = len(nums) - 1
+        while left <= right:
+            mid = left + (right - left) // 2
+            if nums[mid] == target:
+                return mid
 
-                if nums[index] < nums[index - 1]:
-                    return -1
-
-                index -= 1
-        else:
-            index = 0
-            while index <= n:
-                if nums[index] == target:
-                    return index
-
-                if index == n:
-                    return -1
-
-                if nums[index] > nums[index + 1]:
-                    return -1
-
-                index += 1
-
+            if nums[left] <= nums[mid]:
+                if nums[left] <= target <= nums[mid]:
+                    right = mid - 1
+                else:
+                    left = mid + 1
+            else:
+                if nums[mid] <= target <= nums[right]:
+                    left = mid + 1
+                else:
+                    right = mid - 1
         return -1
 
