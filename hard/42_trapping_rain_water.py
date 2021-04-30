@@ -3,17 +3,29 @@ from typing import List
 
 class Solution:
     def trap(self, height: List[int]) -> int:
-        left = 0
+        if len(height) <= 2:
+            return 0
+
+        result = 0
+
+        left_max = height[0]
+        right_max = height[-1]
+
+        left = 1
         right = len(height) - 1
-        left_max = right_max = water = 0
+
         while left <= right:
+            if height[left] > left_max:
+                left_max = height[left]
+
+            if height[right] > right_max:
+                right_max = height[right]
+
             if left_max <= right_max:
-                left_max = max(left_max, height[left])
-                water += left_max - height[left]
+                result += left_max - height[left]
                 left += 1
             else:
-                right_max = max(right_max, height[right])
-                water += right_max - height[right]
+                result += right_max - height[right]
                 right -= 1
+        return result
 
-        return water
