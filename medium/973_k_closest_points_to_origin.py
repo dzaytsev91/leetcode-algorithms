@@ -3,7 +3,6 @@ from typing import List
 
 class Solution:
     def kClosest(self, points: List[List[int]], k: int) -> List[List[int]]:
-        orig = [0, 0]
         result = []
         data = {}
         for point in points:
