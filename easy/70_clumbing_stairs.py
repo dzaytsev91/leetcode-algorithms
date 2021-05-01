@@ -1,15 +1,16 @@
 class Solution:
-    def climbStairs(self, n: int) -> int:
-        if n == 1 or n == 0:
+    def __init__(self):
+        self.cache = {1: 1, 2: 2}
+
+    def count_steps(self, n):
+        if self.cache.get(n):
+            return self.cache.get(n)
+        if n == 0 or n == 1:
             return 1
-        res = [0]*n
-        res[0], res[1] = 1, 2
-        for index in range(2, n):
-            res[index] = res[index - 1] + res[index - 2]
-        return res[-1]
 
+        result = self.count_steps(n - 1) + self.count_steps(n - 2)
+        self.cache[n] = result
+        return result
 
-if __name__ == '__main__':
-    solution = Solution()
-    assert solution.climbStairs(2) == 2
-    assert solution.climbStairs(3) == 3
+    def climbStairs(self, n: int) -> int:
+        return self.count_steps(n)
