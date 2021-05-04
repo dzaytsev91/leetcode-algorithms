@@ -13,4 +13,3 @@ class Solution:
             return result
 
         return rec(n)
-
