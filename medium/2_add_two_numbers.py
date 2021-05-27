@@ -7,38 +7,31 @@ class ListNode:
 
 class Solution:
     def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
-        if not l1 and not l2:
-            return [0]
-
         result = ListNode()
         tmp = result
-        reminder = 0
-
+        carry = False
         while l1 or l2:
-            total_sum = 0
+            tmp_result = 0
             if l1:
-                total_sum += l1.val
+                tmp_result += l1.val
                 l1 = l1.next
             if l2:
-                total_sum += l2.val
+                tmp_result += l2.val
                 l2 = l2.next
 
-            total_sum += reminder
+            if carry:
+                tmp_result += 1
 
-            if total_sum > 9:
-                reminder = 1
-                new_node = ListNode(val=total_sum - 10)
+            if tmp_result > 9:
+                carry = True
+                tmp_result -= 10
             else:
-                new_node = ListNode(val=total_sum)
-                reminder = 0
+                carry = False
 
-            tmp.next = new_node
-            tmp = new_node
+            tmp.next = ListNode(val=tmp_result)
+            tmp = tmp.next
 
-        if reminder > 0:
-            new_node = ListNode(val=reminder)
-            tmp.next = new_node
+        if carry:
+            tmp.next = ListNode(val=1)
 
         return result.next
-
-
