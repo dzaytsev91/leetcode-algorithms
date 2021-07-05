@@ -2,7 +2,9 @@ from typing import List
 
 
 class Solution:
-    def longestOnes(self, nums: List[int], k: int) -> int:
+    def findMaxConsecutiveOnes(self, nums: List[int]) -> int:
+        # k is the number of possible replacements
+        k = 1
         left = 0
         result = 0
         for right in range(len(nums)):
