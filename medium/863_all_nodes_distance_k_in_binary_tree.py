@@ -1,3 +1,7 @@
+# idea: convert bst to graph than bfs with levels and
+# add all nodes with needed values
+
+
 # Definition for a binary tree node.
 from collections import defaultdict
 from typing import List
