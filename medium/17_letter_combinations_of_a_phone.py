@@ -1,3 +1,9 @@
+# idea: make letters map, put index and empty list to stack
+# than check if index equals digits len if not
+# iterate to every char in digits val and put it to stack, append letter
+# to list and increase index
+
+
 from typing import List
 
 
