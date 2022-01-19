@@ -1,36 +1,41 @@
-from collections import defaultdict
+# idea: put all prerequisites in dict {<course>: [<array of prereqs>]}
+# than go for each course and try to run dfs to complete it
+# check if cycle exists, this is the only possible error
+# time complexity: O(E+V) where E = number of dependencies and
+# V = number of courses
+# space complexity: O(E+V)
+
 from typing import List
 
 
 class Solution:
-    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
-        todo = dict()
-        graph = defaultdict(set)
-        stack = []
+    def canFinish(self, numCourses: int,
+                  prerequisites: List[List[int]]) -> bool:
+        prereqs = {}
+        for course in range(numCourses):
+            prereqs[course] = []
 
-        for key, val in prerequisites:
-            if key not in todo:
-                todo[key] = set()
-            if val not in todo:
-                todo[val] = set()
+        for course, req in prerequisites:
+            prereqs[course].append(req)
 
-            todo[key].add(val)
-            graph[val].add(key)
+        cycle = set()
+        visited = set()
 
-        for key in todo:
-            if len(todo[key]) == 0:
-                stack.append(key)
+        def dfs(course):
+            if course in cycle:
+                return False
+            if course in visited:
+                return True
+            cycle.add(course)
+            for pre in prereqs[course]:
+                if dfs(pre) == False:
+                    return False
+            cycle.remove(course)
+            visited.add(course)
+            return True
 
-        while stack:
-            node = stack.pop(0)
+        for course in range(numCourses):
+            if dfs(course) == False:
+                return False
 
-            for value in graph[node]:
-                todo[value].remove(node)
-
-                if len(todo[value]) == 0:
-                    stack.append(value)
-
-            todo.pop(node)
-
-        return not todo
-
+        return True
