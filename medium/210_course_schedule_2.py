@@ -1,38 +1,46 @@
-from collections import defaultdict
+# idea: put all prerequisites in dict {<course>: [<array of prereqs>]}
+# than go for each course and try to run dfs to complete it
+# check if cycle exists, this is the only possible error
+# time complexity: O(E+V) where E = number of dependencies and
+# V = number of courses
+# space complexity: O(E+V)
+# important note: remember adding nodes to result in right place,
+# right after you are sure it can be done
+
 from typing import List
 
 
 class Solution:
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> \
     List[int]:
-        if numCourses < 1:
-            return []
-        if numCourses == 1 and not prerequisites:
-            return [0]
-
-        todo = {x: set() for x in range(numCourses)}
-        reqs = defaultdict(set)
-        res = []
+        prereqs = {}
+        for course in range(numCourses):
+            prereqs[course] = []
 
         for course, req in prerequisites:
-            todo[course].add(req)
-            reqs[req].add(course)
+            prereqs[course].append(req)
 
-        stack = []
-        for val in todo:
-            if len(todo[val]) == 0:
-                stack.append(val)
+        visited = set()
+        cycle = set()
+        result = []
 
-        while stack:
-            course = stack.pop(0)
-            for value in reqs[course]:
-                todo[value].remove(course)
-                if len(todo[value]) == 0:
-                    stack.append(value)
-            todo.pop(course)
-            res.append(course)
+        def dfs(course):
+            if course in cycle:
+                return False
+            if course in visited:
+                return True
 
-        if len(todo) > 0:
-            return []
+            cycle.add(course)
 
-        return res
+            for pre in prereqs[course]:
+                if dfs(pre) == False:
+                    return False
+            cycle.remove(course)
+            visited.add(course)
+            result.append(course)
+            return True
+
+        for course in range(numCourses):
+            if dfs(course) == False:
+                return []
+        return result
