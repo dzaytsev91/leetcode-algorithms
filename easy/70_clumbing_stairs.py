@@ -1,15 +1,10 @@
 class Solution:
+    def __init__(self):
+        self.cache = {1: 1, 2: 2, 3: 3}
 
     def climbStairs(self, n: int) -> int:
-        cache = {}
-
-        def rec(n):
-            if cache.get(n):
-                return cache.get(n)
-            if n == 0 or n == 1:
-                return 1
-            result = rec(n - 1) + rec(n - 2)
-            cache[n] = result
-            return result
-
-        return rec(n)
+        if n in self.cache:
+            return self.cache[n]
+        self.cache[n - 1] = self.climbStairs(n - 1)
+        self.cache[n - 2] = self.climbStairs(n - 2)
+        return self.cache[n - 1] + self.cache[n - 2]
