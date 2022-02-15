@@ -1,3 +1,5 @@
+# idea: recursive call with memoization
+
 class Solution:
     def __init__(self):
         self.cache = {1: 1, 2: 2, 3: 3}
