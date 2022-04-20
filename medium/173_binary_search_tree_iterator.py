@@ -1,38 +1,42 @@
+# idea: make a recursive inorder traversal
+# save nodes in stack, then just iterate over stack
+# and check if node has right child, if yes
+# run recursive func on right node
+
+# next func has complexity is O(1), worst case O(N)
+# hasNext has O(1) time complexity
+
+# space complexity O(N)
+
+
 # Definition for a binary tree node.
-class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+from typing import Optional
 
 
 class BSTIterator:
 
-    def __init__(self, root: TreeNode):
-        self.root = root
-        self.data = []
-        self.pushAll(root)
+    def __init__(self, root: Optional[TreeNode]):
+        self.stack = []
+        self.inorder(root)
 
-    def pushAll(self, node):
-        while node is not None:
-            self.data.append(node)
-            node = node.left
+    def inorder(self, root):
+        while root:
+            self.stack.append(root)
+            root = root.left
 
     def next(self) -> int:
-        """
-        @return the next smallest number
-        """
-        if not self.hasNext():
-            return -1
-        temp = self.data.pop()
-        self.pushAll(temp.right)
-        return temp.val
+        topmost_node = self.stack.pop()
+        if topmost_node.right:
+            self.inorder(topmost_node.right)
+        return topmost_node.val
 
     def hasNext(self) -> bool:
-        """
-        @return whether we have a next smallest number
-        """
-        return len(self.data) > 0
+        return len(self.stack) > 0
 
 # Your BSTIterator object will be instantiated and called as such:
 # obj = BSTIterator(root)
