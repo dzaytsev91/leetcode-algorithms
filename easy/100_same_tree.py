@@ -1,33 +1,36 @@
 # Definition for a binary tree node.
-class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
-
-
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
 class Solution:
-    def isSameTree(self, p: TreeNode, q: TreeNode) -> bool:
-        first_tree = []
-        second_tree = []
-        stack = [p]
+    def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
+        if not p and not q:
+            return True
+        stack = [(p, q)]
         while stack:
-            node = stack.pop()
-            if node:
-                first_tree.append(node.val)
-                stack.append(node.right)
-                stack.append(node.left)
-            else:
-                first_tree.append(None)
-
-        stack = [q]
-        while stack:
-            node = stack.pop()
-            if node:
-                second_tree.append(node.val)
-                stack.append(node.right)
-                stack.append(node.left)
-            else:
-                second_tree.append(None)
-
-        return first_tree == second_tree
+            left, right = stack.pop()
+            if not left and right:
+                return False
+            if not right and left:
+                return False
+            
+            if left.val != right.val:
+                return False
+            
+            if not left.left and right.left:
+                return False
+            if not right.left and left.left:
+                return False
+            if not left.right and right.right:
+                return False
+            if not right.right and left.right:
+                return False
+            
+            if left.left:
+                stack.append([left.left, right.left])
+            if left.right:
+                stack.append([left.right, right.right])
+            
+        return True
