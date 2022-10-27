@@ -9,6 +9,7 @@ class Solution:
         if not p and not q:
             return True
         stack = [(p, q)]
+
         while stack:
             left, right = stack.pop()
             if not left and right:
@@ -32,5 +33,4 @@ class Solution:
                 stack.append([left.left, right.left])
             if left.right:
                 stack.append([left.right, right.right])
-            
         return True
